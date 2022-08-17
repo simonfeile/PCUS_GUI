@@ -3,7 +3,7 @@
     "ImpulseVoltage [V]": 100.0,
     "ImpulseDelay [us]": 0.0,
     "RecordingDelay [us]": 0.0,
-    "RecordingLength [us]": 0.0,
+    "RecordingLength [us]": 10.000000000000002,
     "Gain [dB]": 30.0,
     "FilterIndex": 3,
     "Preamplifier enabled": false,
