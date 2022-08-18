@@ -1,0 +1,36 @@
+# Ignore the node_modules directory
+node_modules/
+
+# Ignore Logs
+logs
+*.log
+
+# Ignore the build directory
+*/dist
+*/build
+
+
+# The file containing environment variables 
+.env
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sw*
+
+# Ignore pycache
+\__pycache__
+
+#ignore .pyc
+*.pyc
+
+#ignore .exe
+*.exe
+
+#ignore .pkg
+*.pkg
+
+#ignore init
+PCUS\init_pcus_dict.json
+PCUS\GUI_pcus\init_GUI_dict.json
+
