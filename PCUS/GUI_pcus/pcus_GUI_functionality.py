@@ -30,8 +30,6 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         with open(sshFile, "r") as fh:
             self.setStyleSheet(fh.read())
 
-        # self.pcus = PCUS_pro()
-        self.pcus = PCUS_dummy()
         self.add_functionality()
         # self.applysetting()
 
@@ -62,9 +60,20 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.Start_Measurement_Series_Button.clicked.connect(self.start_series)
 
     def connect(self):
+
+        if bool(self.Device_Combo_Box.currentIndex()):
+            self.pcus = PCUS_dummy()
+            self.ImpulseDelaySpinBox.setEnabled(False)
+            self.ImpulseLengthSpinBox.setEnabled(False)
+            self.ImpulseVoltageSpinBox.setEnabled(False)
+            self.PulseEchocomboBox.setEnabled(False)
+        else:
+            self.pcus = PCUS_pro()
+
+
+
         self.pcus.SearchAndOpenPCUSDevice()
 
-        self.pcus.WarmUpAllChannels()
 
         msg = QMessageBox()
         msg.setWindowTitle("")
@@ -105,6 +114,12 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.Start_Measurement_Series_Button.setEnabled(False)
         self.calibrate_button.setEnabled(False)
         self.Snapshot.setEnabled(False)
+
+        self.ImpulseDelaySpinBox.setEnabled(True)
+        self.ImpulseLengthSpinBox.setEnabled(True)
+        self.ImpulseVoltageSpinBox.setEnabled(True)
+        self.PulseEchocomboBox.setEnabled(True)
+
 
     def display_plot(self):
         self.PlotWidget.clear()
@@ -188,7 +203,6 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.pcus.SetDualInputMode(bool(self.PulseEchocomboBox.currentIndex()))
 
         self.pcus.SetShotsToAverage(self.RecordingAverageSpinBox.value())
-
         self.pcus.ApplyMeasurementSettings()  # transfers settings from pcus class to device
 
     def read_settings_from_pcus_to_GUI(self):

@@ -123,7 +123,8 @@
          <enum>Qt::DefaultContextMenu</enum>
         </property>
         <property name="minimum">
-         <number>0</number>
+         <number>50</number>
+
         </property>
         <property name="maximum">
          <number>500</number>
@@ -262,6 +263,11 @@
         <property name="contextMenuPolicy">
          <enum>Qt::DefaultContextMenu</enum>
         </property>
+
+        <property name="maximum">
+         <number>40</number>
+        </property>
+
        </widget>
       </item>
       <item row="1" column="1">
@@ -907,6 +913,58 @@
      </layout>
     </widget>
    </widget>
+
+   <widget class="QGroupBox" name="groupBox_6">
+    <property name="geometry">
+     <rect>
+      <x>1029</x>
+      <y>10</y>
+      <width>151</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>Device</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <widget class="QComboBox" name="Device_Combo_Box">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>111</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <item>
+      <property name="text">
+       <string>PCUS Pro</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dummy</string>
+      </property>
+     </item>
+    </widget>
+   </widget>
+
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

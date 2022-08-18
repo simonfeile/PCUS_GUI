@@ -1,10 +1,11 @@
 {
-    "ImpulseLength [ns]": 250.0,
-    "ImpulseVoltage [V]": 100.0,
+
+    "ImpulseLength [ns]": 100.0,
+    "ImpulseVoltage [V]": 50.0,
     "ImpulseDelay [us]": 0.0,
     "RecordingDelay [us]": 0.0,
     "RecordingLength [us]": 10.000000000000002,
-    "Gain [dB]": 30.0,
+    "Gain [dB]": 31.0,
     "FilterIndex": 3,
     "Preamplifier enabled": false,
     "DualInputMode": true,

@@ -37,13 +37,35 @@ class PCUS_dummy(object):
         self.MaxVoltage = 250.0
         self.MinVoltage = 50.0
 
-        x = x = np.linspace(0,20,1000)
-        self.dummy_signal = 0.5*np.exp(-(x - 5) ** 2 / 2) * np.cos(x * 10)
+
+    def generate_dummy_signal(self):
 
 
+        sample_delay = self.RecordingDelay*self.SampleRate*1e-9 /(20*self.RecordingLength/ 1e3)/np.pi
+        x = np.linspace(sample_delay, sample_delay +
+                        20 * self.RecordingLength / 1e3, self.RecordingLength)
+        preamp = 0
+        if self.PreampEnabled:
+            preamp =40
+        gain = preamp + self.GetGain()
+        # print(gain)
+        # print(10**(gain/10) )
+        dummy_signal = 0.5 * np.exp(-(x - 5) ** 2 / 2) * np.cos(x * 10)
+        dummy_signal2 = 0.07* np.exp(-(x - 9) ** 2 / 5) * np.cos(x * 11)
+
+
+        noise = np.random.normal(0, 0.03/self.ShotsToAverage*10, self.RecordingLength)
+        completedata = dummy_signal + dummy_signal2 + noise
+        completedata = completedata * 10**(gain/10) *1e-3
+
+        noise = np.random.normal(0, 0.01, self.RecordingLength)
+        completedata = completedata + noise
+
+        return list(completedata)
 
     def SetGain(self, gain):
-        print(f"Gain set to {gain}")
+
+        # print(f"Gain set to {gain}")
         self.Gain = gain
         self.ApplyMeasurementSettings()
 
@@ -53,7 +75,8 @@ class PCUS_dummy(object):
     def SetImpulseLength(self, ImpulseLength):
         self.ImpulseLength = ImpulseLength
         self.ApplyMeasurementSettings()
-        print(f"Impulse lenght = {ImpulseLength}")
+        # print(f"Impulse lenght = {ImpulseLength}")
+
 
     def GetImpulseLength(self):
         return self.ImpulseLength
@@ -119,7 +142,8 @@ class PCUS_dummy(object):
         return self.Filter
 
     def SetPreampEnabled(self, PreampEnabled):
-        print(f"PreampEnabled {PreampEnabled}")
+        # print(f"PreampEnabled {PreampEnabled}")
+
         self.PreampEnabled = PreampEnabled
         self.ApplyMeasurementSettings()
 
@@ -141,20 +165,16 @@ class PCUS_dummy(object):
         return self.ShotsToAverage
 
     def Snapshot_and_Save(self, path, name):
-        print(f'path : {path}')
-        print(f'name : {name}')
-        noise = np.random.normal(0, 0.05, 1000)
-        completedata = list(self.dummy_signal+noise)
-
+        # print(f'path : {path}')
+        # print(f'name : {name}')
+        # print(self.RecordingLength)
         print("dummy device didnt save file")
-        return completedata
+        return self.generate_dummy_signal()
 
 
     def Snapsshot(self):
-        print("snap")
-        noise = np.random.normal(0, 0.05, 1000)
-        completedata = list(self.dummy_signal+noise)
-        return completedata
+        return self.generate_dummy_signal()
+
 
     def SearchAndOpenPCUSDevice(self):
         print("found dummy device")

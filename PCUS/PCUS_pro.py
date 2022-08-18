@@ -225,8 +225,10 @@ class PCUS_pro(object):
 		print("Found %d PCUS Devices" % (len(locator.Devices)))
 		print
 
+
 		if len(locator.Devices) == 0:
-			return 0
+			raise Exception("No device found, Please make sure PCUS device is connected through USB and drivers are installed")
+
 
 		for x in range (0, len(locator.Devices)):
 			print("%d: %s" % (x, locator.Devices[x].Name))
@@ -916,6 +918,5 @@ class PCUS_pro(object):
 			Channel_End = Channel_Start
 
 		print("Range from address %d to %d" % (Channel_Start, Channel_End))
-		
 		return (Channel_Start, Channel_End)
 		# TODO: Validate that all channels do exist
