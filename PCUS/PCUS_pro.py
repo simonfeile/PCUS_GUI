@@ -79,7 +79,7 @@ class PCUS_pro(object):
 		self.__MeasSettings = IMeasurementSettings
 
 	def SetGain(self,gain):
-		print(f"Gain set to {gain}")
+		# print(f"Gain set to {gain}")
 		self.Gain = gain
 		self.ApplyMeasurementSettings()
 
@@ -90,7 +90,7 @@ class PCUS_pro(object):
 	def SetImpulseLength(self,ImpulseLength):
 		self.ImpulseLength = ImpulseLength
 		self.ApplyMeasurementSettings()
-		print(f"Impulse lenght = {ImpulseLength}")
+		# print(f"Impulse lenght = {ImpulseLength}")
 
 	def GetImpulseLength(self):
 		return self.ImpulseLength
@@ -157,7 +157,7 @@ class PCUS_pro(object):
 		return self.Filter
 
 	def SetPreampEnabled(self,PreampEnabled):
-		print(f"PreampEnabled {PreampEnabled}")
+		# print(f"PreampEnabled {PreampEnabled}")
 		self.PreampEnabled = PreampEnabled
 		self.ApplyMeasurementSettings()
 
@@ -768,6 +768,7 @@ class PCUS_pro(object):
 		returns
 			np array of shot amplitude
 		"""#
+		# print("before snap")
 		dummy = self.ExecuteShots(1)  # somehow this is required to work
 		data = self.ExecuteMeasurement(self.ShotsToAverage)
 		dummy = self.ExecuteShots(1)  # somehow this is required to work
@@ -779,6 +780,7 @@ class PCUS_pro(object):
 			completedata.append(buf)
 		completedata = np.array(completedata)
 		# if list:
+		# print("snap")
 		completedata = list(completedata)
 		return completedata
 
@@ -812,11 +814,11 @@ class PCUS_pro(object):
 		Amplitude
 		"""
 		completedata = list(self.Snapsshot())
-		print("snapshot")
+		# print("snapshot")
 
 		self.Save_shot_as_ascan(completedata,path,name)
 
-		print("save")
+		# print("save")
 		return completedata
 
 	def Snapshot_and_Save_with_spec_params(self, path, name, gain, impulselength, preamp, ):

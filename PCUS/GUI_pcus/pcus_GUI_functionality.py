@@ -30,6 +30,8 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         with open(sshFile, "r") as fh:
             self.setStyleSheet(fh.read())
 
+        self.pcus = PCUS_pro()
+        # self.pcus = PCUS_dummy()
         self.add_functionality()
         # self.applysetting()
 
@@ -38,6 +40,7 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.calibrate_button.setEnabled(False)
         self.Snapshot.setEnabled(False)
         self.DisconnectButton.setEnabled(False)
+        self.stop_calibration.setEnabled(False)
 
         GUI_json = Path('init_GUI_dict.json')
         if GUI_json.is_file():
@@ -70,16 +73,16 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         else:
             self.pcus = PCUS_pro()
 
-
-
         self.pcus.SearchAndOpenPCUSDevice()
 
+        self.pcus.WarmUpAllChannels()
 
         msg = QMessageBox()
         msg.setWindowTitle("")
         msg.setText("connected")
         x = msg.exec()
         self.ConnectButton.setEnabled(False)
+        self.stop_calibration.setEnabled(True)
         self.DisconnectButton.setEnabled(True)
         self.Start_Measurement_Series_Button.setEnabled(True)
         self.calibrate_button.setEnabled(True)
@@ -109,11 +112,14 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         msg.setWindowTitle("")
         msg.setText("disconnected and settings saved")
         x = msg.exec()
+        self.calibrate_button.setStyleSheet(
+            "background-color:qlineargradient(spread:repeat, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(84, 84, 84, 255),stop:1 rgba(59, 59, 59, 255));")
         self.ConnectButton.setEnabled(True)
         self.DisconnectButton.setEnabled(False)
         self.Start_Measurement_Series_Button.setEnabled(False)
         self.calibrate_button.setEnabled(False)
         self.Snapshot.setEnabled(False)
+        self.stop_calibration.setEnabled(False)
 
         self.ImpulseDelaySpinBox.setEnabled(True)
         self.ImpulseLengthSpinBox.setEnabled(True)
@@ -163,9 +169,9 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.series_bool = True
         self.Snapshot.setEnabled(False)
         self.calibrate_button.setStyleSheet("background-color:#b78620")
+
         while self.series_bool:
             self.snapshot(apply_settings_flag, display_measurement_flag, save_measurement_flag)
-
 
     def stop_snapshot_series(self):
         self.series_bool = False
@@ -187,7 +193,7 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
     def apply_settings_from_GUI_to_PCUS(self):
         """
         reads out the GUI_pcus and applies it to PCUS
-        :return: 
+        :return:
         """
         # PCUS settings ---------------------------------------
         self.pcus.SetImpulseLength(float(self.ImpulseLengthSpinBox.value()))
@@ -203,12 +209,13 @@ class Ui_MainWindow_functionality(QtWidgets.QMainWindow):
         self.pcus.SetDualInputMode(bool(self.PulseEchocomboBox.currentIndex()))
 
         self.pcus.SetShotsToAverage(self.RecordingAverageSpinBox.value())
+
         self.pcus.ApplyMeasurementSettings()  # transfers settings from pcus class to device
 
     def read_settings_from_pcus_to_GUI(self):
         """
         reads the settings from PCUS and applies to GUI_pcus
-        :return: 
+        :return:
         """
         #Mode
         self.PulseEchocomboBox.setCurrentIndex(self.pcus.GetDualInputMode())
