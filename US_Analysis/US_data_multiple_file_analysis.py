@@ -77,8 +77,6 @@ class US_measurement_class():
 
         self.df = self.df.sort_values(by = ['time/s'])
 
-        print(self.df)
-
 
     def simple_plot(self):
         fig, ax = plt.subplots(3,sharex = True)
