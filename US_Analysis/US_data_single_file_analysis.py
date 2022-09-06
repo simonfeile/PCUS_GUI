@@ -110,14 +110,14 @@ class US_data_single_file_class():
 
         # delete the Amplitudes to pass rest to logging
         del pcus_dict['Amplitudes']
-        print(f"filename {filename}")
+        # print(f"filename {filename}")
         if 'Sampling rate' in pcus_dict:
             self.sr = float(pcus_dict['Sampling rate'])
         else:
             self.sr = 100 * 1e6 # for pcus measurements
 
 
-        print(f'Smapling rate of file {self.sr/1e6} MHz')
+        # print(f'Smapling rate of file {self.sr/1e6} MHz')
         si = 1 / self.sr
         n_sa = len(Amplitude_float)
         if 'RecordingDelay [us]' in set(pcus_dict.keys()):

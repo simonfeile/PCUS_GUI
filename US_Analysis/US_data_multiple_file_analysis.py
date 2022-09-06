@@ -10,7 +10,7 @@ def get_all_file_paths(directory,ending = ".ascan"):
     # initializing empty file paths list
     file_paths = []
     # crawling through directory and subdirectories
-    for root, directories, files in os.walk(directory):
+    for root, directories, files in os.walk(directory, topdown=True):
         for filename in files:
             if ending in filename:
                 # join the two strings in order to form the full file path.
@@ -19,7 +19,7 @@ def get_all_file_paths(directory,ending = ".ascan"):
                 file_paths.append(directory + "/" + file_path)
 
     # returning all the paths
-    return file_paths
+    return sorted(file_paths)
 
 class US_measurement_class():
     """
@@ -75,9 +75,14 @@ class US_measurement_class():
 
             self.df = pd.concat([self.df, tempdf]) # memory inefficient but easy
 
+        self.df = self.df.sort_values(by = ['time/s'])
+
+        print(self.df)
+
+
     def simple_plot(self):
         fig, ax = plt.subplots(3,sharex = True)
-        ax[0].plot(self.df ['time/s'], self.df ['ToF_threshold_of_amp/µs'])
+        ax[0].plot(self.df['time/s'], self.df['ToF_threshold_of_amp/µs'])
         ax[0].set_ylabel('ToF_threshold_of_amp[µs]')
         ax[1].plot(self.df['time/s'], self.df['ToF_max_amp/µs'])
         ax[1].set_ylabel('ToF_max_amp[µs]')
@@ -112,9 +117,16 @@ if __name__ == "__main__":
 
     # get complete file path
     file_path = os.getcwd() + "/US_example_data"
+    file_path = r"S:\spartacus\04_Arbeitspakete\02 WP2\Task 2.1 Acoustic measurement\PZT\03_Messdaten\Alterungsmessreihe\200cycles\SP_059_US_200cycles"
 
     # chose amp threshhold
     amp_threshhold = 0.1
+
+    # set manual start time
+    start_time = datetime.datetime.strptime("2022-01-17 18:20:40", '%Y-%m-%d %H:%M:%S')
+
+    # set automatic (first US file (as sorted by windows/alphabetically)) as starttime
+    start_time = 0
 
     # create instance
     US_measurement_multiple = US_measurement_class(file_path,amp_threshhold)
@@ -124,6 +136,6 @@ if __name__ == "__main__":
     # save as excel
     US_measurement_multiple.save_df_as_excel("results_as_excel")
     # save as csv
-    US_measurement_multiple.save_df_as_csv("results_as_excel")
+    US_measurement_multiple.save_df_as_csv("results_as_csv")
 
     plt.show()

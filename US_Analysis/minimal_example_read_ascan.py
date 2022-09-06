@@ -82,4 +82,4 @@ if __name__ == "__main__":
     plt.plot(time,ascan_dict["Amplitudes"])
     plt.xlabel("time[s]")
     plt.ylabel("Amplitude")
-
+    plt.show()
