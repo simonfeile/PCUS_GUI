@@ -117,7 +117,6 @@ if __name__ == "__main__":
 
     # get complete file path
     file_path = os.getcwd() + "/US_example_data"
-    file_path = r"S:\spartacus\04_Arbeitspakete\02 WP2\Task 2.1 Acoustic measurement\PZT\03_Messdaten\Alterungsmessreihe\200cycles\SP_059_US_200cycles"
 
     # chose amp threshhold
     amp_threshhold = 0.1
